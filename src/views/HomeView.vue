@@ -13,14 +13,14 @@ onMounted(async () => {
 <template>
   <main>
     <div class="items">
-      <div class="item" v-for="article in articles">
+      <router-link :to="{name: 'article.show', params: {id: article.id}}" class="item" v-for="article in articles">
         <div class="date-wrapper">
           <img :src="article.image_url" alt="">
           <div class="date">Today</div>
         </div>
 
         <p class="bold">{{ article.title }}</p>
-      </div>
+      </router-link>
     </div>
   </main>
 </template>

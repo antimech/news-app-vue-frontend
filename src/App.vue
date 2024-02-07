@@ -7,6 +7,10 @@ import HelloWorld from './components/HelloWorld.vue'
   <header>
     <div class="wrapper">
       <HelloWorld msg="News" />
+
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+      </nav>
     </div>
   </header>
 
