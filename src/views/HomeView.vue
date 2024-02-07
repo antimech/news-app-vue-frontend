@@ -20,6 +20,8 @@ onMounted(async () => {
         </div>
 
         <p class="bold">{{ article.title }}</p>
+
+        <p>{{ article.content.slice(0, 64) + '...' }}</p>
       </router-link>
     </div>
   </main>
