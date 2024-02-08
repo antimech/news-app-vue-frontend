@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { DateTime } from 'luxon'
 
 const props = defineProps({
   id: {
@@ -28,6 +29,12 @@ onMounted(async () => {
     <p>
       {{ article.content }}
     </p>
+
+    <div class="article-footer">
+      <div class="date">
+        Published at: {{ DateTime.fromISO(article.created_at)}}
+      </div>
+    </div>
   </article>
 </template>
 
@@ -42,5 +49,16 @@ h1 {
 
 .img-wrapper img {
   max-width: 100%;
+}
+
+.article-footer {
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .article-footer {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>
