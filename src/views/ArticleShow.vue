@@ -9,7 +9,9 @@ const props = defineProps({
   }
 })
 
-const article = ref({})
+const article = ref({
+  author: {}
+})
 
 onMounted(async () => {
   await fetch('http://localhost:8000/api/articles/' + props.id)
@@ -31,6 +33,9 @@ onMounted(async () => {
     </p>
 
     <div class="article-footer">
+      <div>
+        Author: {{ article.author.name }}
+      </div>
       <div class="date">
         Published at: {{ DateTime.fromISO(article.created_at)}}
       </div>
