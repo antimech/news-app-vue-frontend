@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { DateTime } from 'luxon'
 
 const articles = ref([])
 
@@ -16,7 +17,7 @@ onMounted(async () => {
       <router-link :to="{name: 'article.show', params: {id: article.id}}" class="item" v-for="article in articles">
         <div class="date-wrapper">
           <img :src="article.image_url" alt="">
-          <div class="date">Today</div>
+          <div class="date" :title="article.created_at">{{ DateTime.fromISO(article.created_at).toRelative() }}</div>
         </div>
 
         <p class="bold">{{ article.title }}</p>
