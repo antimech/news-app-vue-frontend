@@ -1,13 +1,19 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { DateTime } from 'luxon'
+import { useRouter } from 'vue-router';
 
 const articles = ref([])
+const page = new URLSearchParams(window.location.search).get('page') || 1
+let totalPages = 1
 
 onMounted(async () => {
-  await fetch('http://localhost:8000/api/articles')
+  await fetch('http://localhost:8000/api/articles?' + new URLSearchParams({'page': page}).toString())
       .then(response => response.json())
-      .then(data => articles.value = data.data)
+      .then(data => {
+        totalPages = data.meta.last_page
+        articles.value = data.data
+      })
 })
 </script>
 
@@ -25,6 +31,18 @@ onMounted(async () => {
         <p>{{ article.content.slice(0, 64) + '...' }}</p>
       </router-link>
     </div>
+
+    <nav>
+      <div class="pagination">
+        <a
+            :href="useRouter().resolve({name: 'home', query: {'page': page}}).href"
+            class="page"
+            v-for="page in totalPages"
+        >
+          {{ page }}
+        </a>
+      </div>
+    </nav>
   </main>
 </template>
 
@@ -70,5 +88,20 @@ onMounted(async () => {
 
 .bold {
   font-weight: bold;
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .pagination {
+    text-align: right;
+  }
+}
+
+.page {
+  padding: 1rem;
 }
 </style>
