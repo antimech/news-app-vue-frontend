@@ -14,7 +14,7 @@ const article = ref({
 })
 
 onMounted(async () => {
-  await fetch('http://localhost:8000/api/articles/' + props.id)
+  await fetch(import.meta.env.VITE_BACKEND_URL + '/api/articles/' + props.id)
       .then(response => response.json())
       .then(data => article.value = data.data)
 })
