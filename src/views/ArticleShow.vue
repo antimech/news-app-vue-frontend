@@ -42,6 +42,10 @@ onMounted(async () => {
         </div>
       </div>
     </div>
+
+    <div>
+      Views: {{ article.views }}
+    </div>
   </article>
 </template>
 
