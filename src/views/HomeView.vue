@@ -4,11 +4,11 @@ import { DateTime } from 'luxon'
 import { useRouter } from 'vue-router';
 
 const articles = ref([])
-const page = new URLSearchParams(window.location.search).get('page') || 1
+const currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1
 let totalPages = 1
 
 onMounted(async () => {
-  const input = import.meta.env.VITE_BACKEND_URL + '/api/articles?' + new URLSearchParams({'page': page}).toString()
+  const input = import.meta.env.VITE_BACKEND_URL + '/api/articles?' + new URLSearchParams({'page': currentPage}).toString()
   const init = {
     headers: {
       'Accept': 'application/json'
@@ -41,13 +41,14 @@ onMounted(async () => {
 
     <nav>
       <div class="pagination">
-        <a
+        <Component
+            :is="currentPage === page ? 'span' : 'a'"
             :href="useRouter().resolve({name: 'home', query: {'page': page}}).href"
             class="page"
             v-for="page in totalPages"
         >
           {{ page }}
-        </a>
+        </Component>
       </div>
     </nav>
   </main>
