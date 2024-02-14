@@ -8,7 +8,14 @@ const page = new URLSearchParams(window.location.search).get('page') || 1
 let totalPages = 1
 
 onMounted(async () => {
-  await fetch(import.meta.env.VITE_BACKEND_URL + '/api/articles?' + new URLSearchParams({'page': page}).toString())
+  const input = import.meta.env.VITE_BACKEND_URL + '/api/articles?' + new URLSearchParams({'page': page}).toString()
+  const init = {
+    headers: {
+      'Accept': 'application/json'
+    }
+  }
+
+  await fetch(input, init)
       .then(response => response.json())
       .then(data => {
         totalPages = data.meta.last_page
