@@ -2,25 +2,23 @@
 import { onMounted, ref } from 'vue'
 import { DateTime } from 'luxon'
 import { useRouter } from 'vue-router';
+import axios from "axios";
 
 const articles = ref([])
 const currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1
 let totalPages = 1
 
 onMounted(async () => {
-  const input = import.meta.env.VITE_BACKEND_URL + '/api/articles?' + new URLSearchParams({'page': currentPage}).toString()
-  const init = {
+  const url = import.meta.env.VITE_BACKEND_URL + '/api/articles?' + new URLSearchParams({'page': currentPage}).toString()
+
+  const { data } = await axios.get(url, {
     headers: {
       'Accept': 'application/json'
     }
-  }
+  })
 
-  await fetch(input, init)
-      .then(response => response.json())
-      .then(data => {
-        totalPages = data.meta.last_page
-        articles.value = data.data
-      })
+  totalPages = data.meta.last_page
+  articles.value = data.data
 })
 </script>
 

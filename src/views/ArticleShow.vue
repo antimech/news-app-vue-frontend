@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { DateTime } from 'luxon'
+import axios from "axios";
 
 const props = defineProps({
   id: {
@@ -14,16 +15,15 @@ const article = ref({
 })
 
 onMounted(async () => {
-  const input = import.meta.env.VITE_BACKEND_URL + '/api/articles/' + props.id
-  const init = {
+  const url = import.meta.env.VITE_BACKEND_URL + '/api/articles/' + props.id
+
+  const { data } = await axios.get(url, {
     headers: {
       'Accept': 'application/json'
     }
-  }
+  })
 
-  await fetch(input, init)
-      .then(response => response.json())
-      .then(data => article.value = data.data)
+  article.value = data.data
 })
 </script>
 
