@@ -15,13 +15,7 @@ const article = ref({
 })
 
 onMounted(async () => {
-  const url = import.meta.env.VITE_BACKEND_URL + '/api/articles/' + props.id
-
-  const { data } = await axios.get(url, {
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
+  const { data } = await axios.get('/api/articles/' + props.id)
 
   article.value = data.data
 })

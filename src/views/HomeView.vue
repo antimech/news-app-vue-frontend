@@ -9,13 +9,7 @@ const currentPage = parseInt(new URLSearchParams(window.location.search).get('pa
 let totalPages = 1
 
 onMounted(async () => {
-  const url = import.meta.env.VITE_BACKEND_URL + '/api/articles?' + new URLSearchParams({'page': currentPage}).toString()
-
-  const { data } = await axios.get(url, {
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
+  const { data } = await axios.get('/api/articles?' + new URLSearchParams({'page': currentPage}).toString())
 
   totalPages = data.meta.last_page
   articles.value = data.data
