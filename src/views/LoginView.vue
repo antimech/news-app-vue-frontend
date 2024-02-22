@@ -4,14 +4,23 @@ import axios from 'axios'
 
 const email = ref()
 const password = ref()
+const errors = ref([])
 
 async function submit() {
   await axios.get('/sanctum/csrf-cookie')
 
-  await axios.post('/login', {
-    email: email.value,
-    password: password.value
-  })
+  try {
+    await axios.post('/login', {
+      email: email.value,
+      password: password.value
+    })
+  } catch (error) {
+    if (error.response.status === 422) {
+      errors.value = error.response.data.errors
+
+      return
+    }
+  }
 
   const { data } = await axios.get('/api/user')
 
@@ -30,6 +39,13 @@ async function submit() {
         <div>
           <input type="text" id="email" v-model="email" required>
         </div>
+
+        <div
+          class="invalid-feedback"
+          v-if="errors['email']"
+      >
+        {{ errors['email'][0] }}
+      </div>
       </div>
 
       <div>
@@ -38,6 +54,13 @@ async function submit() {
         <div>
           <input type="password" id="password" v-model="password" required>
         </div>
+
+        <div
+          class="invalid-feedback"
+          v-if="errors['password']"
+      >
+        {{ errors['password'][0] }}
+      </div>
       </div>
 
       <button>Login</button>
@@ -50,5 +73,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.invalid-feedback {
+  color: red;
 }
 </style>
