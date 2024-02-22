@@ -9,6 +9,7 @@ import HelloWorld from './components/HelloWorld.vue'
 
     <nav>
       <RouterLink to="/">Home</RouterLink>
+      <RouterLink :to="{name: 'login'}">Login</RouterLink>
     </nav>
   </header>
 
