@@ -5,13 +5,11 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <header>
-    <div class="wrapper">
-      <HelloWorld msg="News" />
+    <HelloWorld msg="News" />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
-    </div>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+    </nav>
   </header>
 
   <RouterView />
